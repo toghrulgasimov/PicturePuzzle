@@ -4,7 +4,7 @@ let fs = require('fs');
 /* GET home page. */
 router.get('/', function(req, res, next) {
    let s = fs.readFileSync("./public/indexx.html") + "";
-   res.send(s);
+   res.send(s);//test
 });
 
 module.exports = router;
