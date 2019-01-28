@@ -104,8 +104,8 @@
 <script src="js/canvas-event.min.js"></script>
 <script src="js/canvas-puzzle.min.js"></script>
 <!--[if lt IE 9]><script type="text/javascript" src="js/canvas-puzzle.ie.min.js"></script><![endif]-->
+<script src="pinch-zoom-canvas.js"></script>
 <script>
-    alert("aslasd");
     (function() {
         // var jsaw = new jigsaw.Jigsaw({
         //     defaultImage: "images/puzzle/scottwills_meercats2.jpg",
@@ -122,10 +122,10 @@
             redirect: "",
             border: true,
             defaultPieces: 10,
-            shuffled: false,
+            shuffled: true,
             rotatePieces: false,
             numberOfPieces: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-            squarePieces: true
+            squarePieces: false
         });
         console.log(jigsaw)
         if (jigsaw.GET["image"]) { jsaw.set_image(jigsaw.GET["image"]); }
