@@ -19,6 +19,15 @@ let ContestSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    startDate: {
+        type: Date
+    },
+    createDate: {
+        type: Date
+    },
+    status: {
+        type: Number
+    },
     participant: [{
         id: {
             type: String
@@ -29,13 +38,7 @@ let ContestSchema = new mongoose.Schema({
         finishDuration: {
             type: Number
         }
-    }],
-    startDate: {
-        type: Date
-    },
-    createDate: {
-        type: Date
-    }
+    }]
 });
 
 let Contest = mongoose.model('Contest', ContestSchema);

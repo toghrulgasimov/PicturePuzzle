@@ -71,9 +71,10 @@ setImmediate((arg) => {
             room: new Date().getTime(),
             duration: 1000 * 60,
             picture: "images/puzzle/scottwills_meercats2.jpg",
-            participants: [],
             startIn: new Date(new Date().getTime() + 1000 * 60 * 2),
-            createDate: new Date().getTime()
+            createDate: new Date().getTime(),
+            status: 0,
+            participants: [],
         });
 
         newContest.save().then((contest) => {
