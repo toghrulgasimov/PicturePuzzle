@@ -26,9 +26,9 @@ let ContestSchema = new mongoose.Schema({
         type: Date
     },
     status: {
-        type: Number
+        type: Number // 0 pending , 1 finished , -1 interrupted
     },
-    participant: [{
+    participants: [{
         id: {
             type: String
         },
