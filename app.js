@@ -40,13 +40,13 @@ io.on("connection", function (socket) {
 
 function contestRunner(contest) {
     new CronJob(contest.startDate, function () {
-        io.to(contest.room).emit('startContest', {});
-        console.log('contest : "' + contest.room + '" started');
+        io.to(contest.room).emit('startContest', contest);
+        console.log('Contest : "' + contest.room + '" started');
     }, null, true, 'America/Los_Angeles');
 
     new CronJob(new Date(contest.startDate.getTime() + contest.duration), function () {
-        io.to(contest.room).emit('finishContest', {});
-        console.log('contest : "' + contest.room + '" ended');
+        io.to(contest.room).emit('finishContest', contest);
+        console.log('Contest : "' + contest.room + '" finished');
     }, null, true, 'America/Los_Angeles');
 }
 
@@ -59,7 +59,7 @@ setImmediate((arg) => {
         let newContest = new Contest({
             room: new Date().getTime(),
             duration: 1000 * 10,
-            picture: "images/puzzle/scottwills_meercats2.jpg",
+            picture: "images/puzzle/scottwills_meercats.jpg",
             // startDate: new Date(new Date().getTime() + 1000 * 60 * 2),
             startDate: new Date(new Date().getTime() + 1000 * 5),
             createDate: new Date().getTime(),

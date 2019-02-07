@@ -35,4 +35,15 @@ router.post('/contests', function (req, res) {
     });
 });
 
+router.post('/contest', function (req, res) {
+    Contest.findOne({'room': req.body.room}, function (error, contest) {
+        if (!error) {
+            res.status(200).send(contest);
+        } else {
+            console.log(error);
+            res.status(520).send(error);
+        }
+    });
+});
+
 module.exports = router;

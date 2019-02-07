@@ -1,15 +1,15 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>Jigsaw Puzzle</title>
-    <!--[if lt IE 9]><script type="text/javascript" src="js/bin/flashcanvas.js"></script><![endif]-->
-    <link rel="stylesheet" href="css/modal.css" type="text/css" charset="utf-8" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
-    <link rel="stylesheet" href="css/buttons.css" type="text/css" charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/bin/flashcanvas.js"></script><![endif]-->
+    <link rel="stylesheet" href="css/modal.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="css/buttons.css" type="text/css" charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
 
@@ -23,7 +23,7 @@
 <!-- GAME OPTIONS -->
 <div id="game-options">
     <!--<p> Reyting 30</p>-->
-    <ul     >
+    <ul>
         <li><b id="clock" class="button">00:00:00</b></li>
         <li><a href="#" id="SHOW_EDGE" class="button left" title="Show edge pieces only">Border</a></li>
         <li><a href="#" id="SHOW_MIDDLE" class="button middle" title="Show middle pieces only">Middle</a></li>
@@ -41,7 +41,7 @@
             </div>
         </li>
         <!-- Insert custom buttons here -->
-        <li id="create"><a href="#" class="button add" id="SHOW_FILEPICKER" title="Create puzzle" >Create puzzle</a></li>
+        <li id="create"><a href="#" class="button add" id="SHOW_FILEPICKER" title="Create puzzle">Create puzzle</a></li>
     </ul>
     <br class="clear"/>
 </div>
@@ -60,9 +60,9 @@
     <h3><span id="time"></span></h3>
     <form method="post" class="hide" action="" target="save-score" onsubmit="jigsaw.UI.close_lightbox();">
         <label>
-            Your Name: <input type="text" name="name" />
+            Your Name: <input type="text" name="name"/>
         </label>
-        <input type="submit" value="Save score" />
+        <input type="submit" value="Save score"/>
         <input type="hidden" id="time-input" name="time"/>
     </form>
 </div>
@@ -96,23 +96,21 @@
 </div>
 
 <form class="hide" method="post" id="redirect-form">
-    <input type="text" name="time" id="t" />
-    <input type="text" name="parts" id="p" />
+    <input type="text" name="time" id="t"/>
+    <input type="text" name="parts" id="p"/>
 </form>
 <iframe class="hide" src="about:blank" id="save-score" name="save-score"></iframe>
 <!-- SCRIPTS ROMPECABEZAS -->
 <script src="js/event-emiter.min.js"></script>
 <script src="js/canvas-event.min.js"></script>
 <script src="js/canvas-puzzle.min.js"></script>
-<!--[if lt IE 9]><script type="text/javascript" src="js/canvas-puzzle.ie.min.js"></script><![endif]-->
+<!--[if lt IE 9]>
+<script type="text/javascript" src="js/canvas-puzzle.ie.min.js"></script><![endif]-->
 <script src="pinch-zoom-canvas.js"></script>
 <script>
-    (function() {
-        // var jsaw = new jigsaw.Jigsaw({
-        //     defaultImage: "images/puzzle/scottwills_meercats2.jpg",
-        //     spread: .1,
-        //     piecesNumberTmpl: "%d Pieces"
-        // });
+    const url = window.location.href;
+    if (url.indexOf('?') == -1) {
+
         var jsaw = new jigsaw.Jigsaw({
             spread: .7,
             offsetTop: 0,
@@ -128,12 +126,15 @@
             numberOfPieces: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
             squarePieces: false
         });
-        console.log(jigsaw)
-        if (jigsaw.GET["image"]) { jsaw.set_image(jigsaw.GET["image"]); }
-// this is just an example
-    }());
+        console.log(jigsaw);
+        if (jigsaw.GET["image"]) {
+            jsaw.set_image(jigsaw.GET["image"]);
+        }
+    }
+    ;
 </script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
 <script src="/js/contest.js"></script>
 </body>
