@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var socket_io = require("socket.io");
+var CronJob = require('cron').CronJob;
 
 const {mongoose} = require('./dao/mongoose');
 const {ObjectID} = require('mongodb');
@@ -37,6 +38,18 @@ io.on("connection", function (socket) {
     });
 });
 
+function contestRunner(contest) {
+    new CronJob(contest.startDate, function () {
+        io.to(contest.room).emit('startContest', {});
+        console.log('contest : "' + contest.room + '" started');
+    }, null, true, 'America/Los_Angeles');
+
+    new CronJob(new Date(contest.startDate.getTime() + contest.duration), function () {
+        io.to(contest.room).emit('finishContest', {});
+        console.log('contest : "' + contest.room + '" ended');
+    }, null, true, 'America/Los_Angeles');
+}
+
 //contest maker
 setImmediate((arg) => {
     console.log(arg);
@@ -45,9 +58,10 @@ setImmediate((arg) => {
 
         let newContest = new Contest({
             room: new Date().getTime(),
-            duration: 1000 * 60,
+            duration: 1000 * 10,
             picture: "images/puzzle/scottwills_meercats2.jpg",
-            startDate: new Date(new Date().getTime() + 1000 * 60 * 2),
+            // startDate: new Date(new Date().getTime() + 1000 * 60 * 2),
+            startDate: new Date(new Date().getTime() + 1000 * 5),
             createDate: new Date().getTime(),
             status: 0,
             participants: [],
@@ -55,13 +69,15 @@ setImmediate((arg) => {
 
         newContest.save().then((contest) => {
             console.log("New contest was created", contest);
+            contestRunner(contest);
         }).catch((error) => {
             console.log(error);
         })
 
-    }, 1000 * 60);
+    }, 1000 * 10);
 
 }, 'Contest job started');
+
 
 app.use(logger('dev'));
 app.use(express.json());

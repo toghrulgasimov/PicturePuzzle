@@ -24,18 +24,7 @@ function getContests() {
 }
 
 function joinContest(contestRoom) {
-    socket.emit('join', contestRoom, function (err) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('Joined to contest');
-
-            //ToDO
-            //change view to game page
-            //disable until start time coming
-
-        }
-    });
+    window.location = "http://localhost:3000/start?contest=" + contestRoom;
 }
 
 socket.on('connect', function () {
