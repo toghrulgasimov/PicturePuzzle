@@ -16,11 +16,11 @@ if (contestRoom != null) {
                 console.log('Connected to server');
 
                 $.ajax({
-                    url: 'http://35.231.39.26:3003/contest',
+                    url: 'http://localhost:3000/contest',
                     type: 'post',
                     data: {room: room},
                     success: function (contest) {
-                        if (contest.status == 0)
+                        if (contest.status == 1 || contest.status == 1)
                             startContest(contest);
                         else
                             console.log("waiting to start");
