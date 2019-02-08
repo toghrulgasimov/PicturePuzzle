@@ -34,7 +34,7 @@ socket.on('connect', function () {
 
     setInterval(() => {
         getContests();
-    }, 1000 * 30);
+    }, 1000 * 5);
 });
 
 socket.on('disconnect', function () {

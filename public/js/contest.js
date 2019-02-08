@@ -20,7 +20,7 @@ if (contestRoom != null) {
                     type: 'post',
                     data: {room: room},
                     success: function (contest) {
-                        if (contest.status == 1 || contest.status == 1)
+                        if (contest.status == 1)
                             startContest(contest);
                         else
                             console.log("waiting to start");
@@ -35,11 +35,12 @@ if (contestRoom != null) {
 
 
     socket.on('startContest', function (params) {
-        startContest();
-        console.log("Contest finished")
+        startContest(params);
+        console.log("Contest started")
     });
     socket.on('finishContest', function (params) {
-        console.log("Contest finished");
+        alert("Contest finished");
+        window.location = "http://localhost:3000";
         //show statistics
     });
 

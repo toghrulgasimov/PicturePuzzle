@@ -66,10 +66,9 @@ setImmediate((arg) => {
 
         let newContest = new Contest({
             room: new Date().getTime(),
-            duration: 1000 * 10,
+            duration: 1000 * 120,
             picture: "images/puzzle/scottwills_meercats.jpg",
-            // startDate: new Date(new Date().getTime() + 1000 * 60 * 2),
-            startDate: new Date(new Date().getTime() + 1000 * 5),
+            startDate: new Date(new Date().getTime() + 1000 * 20),
             createDate: new Date().getTime(),
             status: 0,
             participants: [],
@@ -82,7 +81,7 @@ setImmediate((arg) => {
             console.log(error);
         })
 
-    }, 1000 * 30);
+    }, 1000 * 10);
 
 }, 'Contest job started');
 
