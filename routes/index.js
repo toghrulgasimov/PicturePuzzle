@@ -42,9 +42,11 @@ router.post('/nextmission', async function (req, res) {
 
 router.get('/start', function (req, res) {
     let s = fs.readFileSync("./public/indexx.html") + "";
+    const $ = cheerio.load(s);
+    $("#infoid").text(req.cookies._id);
     let mission = req.cookies.mission;
     console.log(mission);
-    res.send(s);//test
+    res.send($.html());//test
 });
 
 router.get('/contests', function (req, res) {
