@@ -42,11 +42,19 @@ function contestRunner(contest) {
     new CronJob(contest.startDate, function () {
         io.to(contest.room).emit('startContest', contest);
         console.log('Contest : "' + contest.room + '" started');
+        Contest.findOne({room: contest.room}, function (err, doc) {
+            doc.status = 1;
+            doc.save();
+        });
     }, null, true, 'America/Los_Angeles');
 
     new CronJob(new Date(contest.startDate.getTime() + contest.duration), function () {
         io.to(contest.room).emit('finishContest', contest);
         console.log('Contest : "' + contest.room + '" finished');
+        Contest.findOne({room: contest.room}, function (err, doc) {
+            doc.status = 2;
+            doc.save();
+        });
     }, null, true, 'America/Los_Angeles');
 }
 
