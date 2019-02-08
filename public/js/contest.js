@@ -40,6 +40,7 @@ if (contestRoom != null) {
     });
     socket.on('finishContest', function (params) {
         console.log("Contest finished");
+        //show statistics
     });
 
     //event for case of finishing in time

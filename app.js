@@ -82,7 +82,7 @@ setImmediate((arg) => {
             console.log(error);
         })
 
-    }, 10000000);
+    }, 1000 * 30);
 
 }, 'Contest job started');
 
