@@ -109,6 +109,7 @@
 <!--[if lt IE 9]>
 <script type="text/javascript" src="js/canvas-puzzle.ie.min.js"></script><![endif]-->
 <script>
+
     const url = window.location.href;
     if (url.indexOf('?') == -1) {
 
@@ -117,7 +118,7 @@
             offsetTop: 0,
             maxWidth: 705,
             maxHeight: 470,
-            defaultImage: "images/puzzle/scottwills_meercats2.jpg",
+            defaultImage: "images/puzzle/"+$("#infoid").attr("mission")+".jpg",
             piecesNumberTmpl: "%d Pieces",
             redirect: "",
             border: true,
