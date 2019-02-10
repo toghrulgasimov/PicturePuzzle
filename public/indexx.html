@@ -10,12 +10,30 @@
     <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8"/>
     <link rel="stylesheet" href="css/buttons.css" type="text/css" charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-</head>
-<body>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body >
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+
+            <a class="navbar-brand" href="http://localhost:3000/">Əsas səhifə</a>
+        </div>
+
+    </div>
+</nav>
 <!-- JIGSAW CANVAS -->
 <div id="infoid"></div>
-<div id="canvas-wrap">
+<div id="canvas-wrap" >
     <canvas id="canvas"></canvas>
     <canvas class="hide" id="image"></canvas>
     <canvas class="hide" id="image-preview"></canvas>
@@ -101,8 +119,8 @@
     <input type="text" name="parts" id="p"/>
 </form>
 <iframe class="hide" src="about:blank" id="save-score" name="save-score"></iframe>
+<img id="bimg" src="images/back2.jpg">
 <!-- SCRIPTS ROMPECABEZAS -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="js/event-emiter.min.js"></script>
 <script src="js/canvas-event.min.js"></script>
 <script src="js/canvas-puzzle.min.js"></script>
@@ -110,8 +128,12 @@
 <script type="text/javascript" src="js/canvas-puzzle.ie.min.js"></script><![endif]-->
 <script>
 
+    var bimg = new Image;
+    bimg.src = "images/back2.jpg";
     const url = window.location.href;
     if (url.indexOf('?') == -1) {
+
+        let pieces = parseInt($("#infoid").attr("mission")) + 10;
 
         var jsaw = new jigsaw.Jigsaw({
             spread: .7,
@@ -122,7 +144,7 @@
             piecesNumberTmpl: "%d Pieces",
             redirect: "",
             border: true,
-            defaultPieces: 10,
+            defaultPieces: pieces,
             shuffled: true,
             rotatePieces: false,
             numberOfPieces: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
@@ -136,8 +158,6 @@
     ;
 </script>
 <script src="/socket.io/socket.io.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
 <script src="/js/contest.js"></script>
 </body>
 </html>
