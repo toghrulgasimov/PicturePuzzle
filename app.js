@@ -35,9 +35,14 @@ io.on("connection", function (socket) {
         callback();
     });
 
-    socket.on('finishInTime', (params) => {
+    socket.on('finishInTime', async (params) => {
         console.log(params + " finished contest");
-        
+
+        await Contest.findOne({room: params.room}, function (err, doc) {
+            //ToDo
+            //player rank and duration
+            doc.save();
+        });
     });
 
     socket.on('disconnect', () => {
@@ -59,6 +64,8 @@ function contestRunner(contest) {
         io.to(contest.room).emit('finishContest', contest);
         console.log('Contest : "' + contest.room + '" finished');
         Contest.findOne({room: contest.room}, function (err, doc) {
+            //ToDo
+            //player ranks
             doc.status = 2;
             doc.save();
         });

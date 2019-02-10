@@ -26,6 +26,8 @@ if (contestRoom != null) {
                             startContest(contest);
                         else
                             console.log("waiting to start");
+                        //ToDo
+                        //show modal with time until game starts
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
                         console.log(jqXhr, textStatus, errorThrown);
@@ -37,6 +39,8 @@ if (contestRoom != null) {
 
 
     socket.on('startContest', function (params) {
+        //ToDo
+        //hide wait modal
         startContest(params);
         console.log("Contest started")
     });
@@ -48,13 +52,15 @@ if (contestRoom != null) {
         //show statistics
     });
 
-    function finishInTime(){
+    function finishInTime() {
 
         var params = {
             room: contestRoom,
+            finishDuration: new Date(),
             player: getCookie('_id')
         };
         socket.emit('finishInTime', params, function () {
+            //ToDO
             //action after finishing
         });
     };
