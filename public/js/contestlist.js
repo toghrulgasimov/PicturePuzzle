@@ -2,7 +2,7 @@ var socket = io();
 
 function getContests() {
     $.ajax({
-        url: 'http://localhost:3000/contests',
+        url: 'http://35.231.39.26:3000/contests',
         type: 'post',
         data: {},
         success: function (data) {
@@ -24,7 +24,7 @@ function getContests() {
 }
 
 function joinContest(contestRoom) {
-    window.location = "http://localhost:3000/start?contest=" + contestRoom;
+    window.location = "http://35.231.39.26:3000/start?contest=" + contestRoom;
 }
 
 socket.on('connect', function () {
