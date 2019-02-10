@@ -19,18 +19,25 @@ app.io = io;
 io.on("connection", function (socket) {
     console.log('New user connected');
 
-    socket.on('join', (room, callback) => {
+    socket.on('join', (params, callback) => {
 
-        if (room.trim().length == 0) {
+        if (params.room.trim().length == 0) {
             callback('Room name are required.');
         }
 
-        socket.join(room);
+        socket.join(params.room);
 
-        //ToDO
-        //add user to participant list
+        Contest.findOne({room: params.room}, function (err, doc) {
+            doc.players.push({'_id': params.player, 'rank': -1, 'finishDuration': -1});
+            doc.save();
+        });
 
         callback();
+    });
+
+    socket.on('finishInTime', (params) => {
+        console.log(params + " finished contest");
+        
     });
 
     socket.on('disconnect', () => {
@@ -61,17 +68,17 @@ function contestRunner(contest) {
 //contest maker
 setImmediate((arg) => {
     console.log(arg);
-
+    let imageIndex = 1;
     setInterval(() => {
 
         let newContest = new Contest({
             room: new Date().getTime(),
             duration: 1000 * 120,
-            picture: "images/puzzle/scottwills_meercats.jpg",
+            picture: "images/contest/" + (imageIndex++) + ".jpg",
             startDate: new Date(new Date().getTime() + 1000 * 20),
             createDate: new Date().getTime(),
             status: 0,
-            participants: [],
+            players: [],
         });
 
         newContest.save().then((contest) => {
@@ -79,7 +86,10 @@ setImmediate((arg) => {
             contestRunner(contest);
         }).catch((error) => {
             console.log(error);
-        })
+        });
+
+        if (imageIndex > 4)
+            imageIndex = 1;
 
     }, 1000 * 10);
 

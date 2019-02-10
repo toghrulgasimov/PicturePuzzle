@@ -12,12 +12,12 @@ const {PuzzlePlayer} = require('../models/player');
 const cheerio = require('cheerio');
 
 router.get('/', async function (req, res) {
-    console.log("gettt");
+    console.log("puzzle game");
 
-    if(req.query.id == undefined) return;
-    let user = await PuzzlePlayer.findOne({_id:req.query.id});
-    if(user == null) {
-        user = new PuzzlePlayer({_id:req.query.id, mission: 1});
+    if (req.query.id == undefined) return;
+    let user = await PuzzlePlayer.findOne({_id: req.query.id});
+    if (user == null) {
+        user = new PuzzlePlayer({_id: req.query.id, mission: 1, score: 0});
         user = await user.save();
     }
     console.log(user);
@@ -36,7 +36,7 @@ router.post('/nextmission', async function (req, res) {
     let currMission = parseInt(req.cookies.mission);
     currMission++;
     res.cookie('mission', currMission);
-    await PuzzlePlayer.findOneAndUpdate({_id:_id}, {$set:{mission:currMission}});
+    await PuzzlePlayer.findOneAndUpdate({_id: _id}, {$set: {mission: currMission}});
     res.send("succes");
 });
 
