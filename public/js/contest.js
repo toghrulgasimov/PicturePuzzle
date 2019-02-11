@@ -38,16 +38,17 @@ if (contestRoom != null) {
     });
 
 
-    socket.on('startContest', function (params) {
+    socket.on('startContest', function (contest) {
         //ToDo
-        //hide wait modal
-        startContest(params);
+        //hide wait modal show alert as start sign
+        startContest(contest);
         console.log("Contest started")
     });
 
-    socket.on('finishContest', function (params) {
+    socket.on('finishContest', function (contest) {
+        console.log(contest);
         alert("Contest finished");
-        window.location = "http://localhost:3000";
+
         //ToDO
         //show statistics
     });
@@ -56,7 +57,7 @@ if (contestRoom != null) {
 
         var params = {
             room: contestRoom,
-            finishDuration: new Date(),
+            finishDuration: new Date().getTime(),
             player: getCookie('_id')
         };
         socket.emit('finishInTime', params, function () {
