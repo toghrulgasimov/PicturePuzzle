@@ -57,7 +57,17 @@ if (contestRoom != null) {
     socket.on('finishContest', function (contest) {
         console.log(contest);
         console.log("Contest finished");
+        $('#resultBody').html('');
+        for (i = 0; i < contest.players.length; i++) {
+            let player = $(`<tr id="${contest.players[i]._id}">
+                                <td>${contest.players[i].rank}</td>
+                                <td>${contest.players[i].firstName + " " + contest.players[i].lastName}</td>
+                                <td>${contest.players[i].finishDuration == 0 ? "Bitirmədi" : contest.players[i].finishDuration + " saniyə"}</td>
+                                <td>${contest.players[i].score}</td>
+                            </tr>`);
 
+            $('#resultBody').append(player);
+        }
         $('#resultModal').modal({
             backdrop: 'static',
             keyboard: false,
@@ -73,7 +83,18 @@ if (contestRoom != null) {
         };
         socket.emit('finishInTime', params, function (contest) {
             console.log(contest);
-            console.log("Congratulations");
+            console.log("Congratulations, you finished contest earlier");
+            $('#resultBody').html('');
+            for (i = 0; i < contest.players.length; i++) {
+                let player = $(`<tr id="${contest.players[i]._id}">
+                                <td>${contest.players[i].rank}</td>
+                                <td>${contest.players[i].firstName + " " + contest.players[i].lastName}</td>
+                                <td>${contest.players[i].finishDuration > contest.duration ? "Bitirməyib" : contest.players[i].finishDuration + " saniyə"} </td>
+                                <td>${contest.players[i].score}</td>
+                            </tr>`);
+
+                $('#resultBody').append(player);
+            }
             $('#resultModal').modal({
                 backdrop: 'static',
                 keyboard: false,

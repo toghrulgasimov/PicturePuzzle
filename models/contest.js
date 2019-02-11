@@ -20,7 +20,8 @@ let ContestSchema = new mongoose.Schema({
         required: true
     },
     startDate: {
-        type: Date
+        type: Date,
+        required: true
     },
     createDate: {
         type: Date
@@ -32,7 +33,16 @@ let ContestSchema = new mongoose.Schema({
         _id: {
             type: String
         },
+        firstName: {
+            type: String
+        },
+        lastName: {
+            type: String
+        },
         rank: {
+            type: Number
+        },
+        score: {
             type: Number
         },
         finishDuration: {

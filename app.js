@@ -5,11 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var socket_io = require("socket.io");
 var CronJob = require('cron').CronJob;
-
 const {mongoose} = require('./dao/mongoose');
 const {ObjectID} = require('mongodb');
 const {Contest} = require('./models/contest');
 var indexRouter = require('./routes/index');
+let MongoClient = require('mongodb').MongoClient;
+let url = "mongodb://localhost:27017/";
 
 var app = express();
 
@@ -28,33 +29,47 @@ io.on("connection", function (socket) {
         socket.join(params.room);
 
         Contest.findOne({room: params.room}, function (err, doc) {
-            doc.players.push({'_id': params.player, 'rank': -1, 'finishDuration': doc.duration + 1});
-            doc.save();
+
+            MongoClient.connect(url, function (err, db) {
+                let dbo = db.db("profile");
+                dbo.collection("users").findOne({'_id': new ObjectID(params.player)}, function (error, user) {
+                    doc.players.push({
+                        '_id': params.player,
+                        'firstName': user.firstName,
+                        'lastName': user.lastName,
+                        'rank': -1,
+                        'score': 0,
+                        'finishDuration': doc.duration + 1
+                    });
+                    doc.save();
+                    db.close();
+                });
+            });
+
         });
 
         callback();
     });
 
-    socket.on('finishInTime', async (params,callback) => {
+    socket.on('finishInTime', async (params, callback) => {
         console.log(params + " finished contest");
 
         await Contest.findOne({room: params.room}, function (err, contest) {
 
             for (i = 0; i < contest.players.length; i++) {
-                if (contest.player[i]._id == params.player) {
+                if (contest.players[i]._id == params.player) {
                     contest.players[i].finishDuration = contest.startDate.getTime() - params.finishDuration;
                 }
             }
-
             contest.players.sort(function (a, b) {
                 return a.finishDuration - b.finishDuration;
             });
-            for (i = 0; i < contest.players.length; i++) {
-                if (contest.players[i].finishDuration <= contest.duration)
-                    contest.players[i].rank = i + 1;
-            }
 
+            for (i = 0; i < contest.players.length; i++) {
+                contest.players[i].rank = i + 1;
+            }
             contest.save();
+
             callback(contest);
         });
     });
@@ -81,8 +96,9 @@ function contestRunner(contest) {
                 return a.finishDuration - b.finishDuration;
             });
             for (i = 0; i < doc.players.length; i++) {
-                if (doc.players[i].finishDuration <= doc.duration)
-                    doc.players[i].rank = i + 1;
+                doc.players[i].rank = i + 1;
+                if (doc.players[i].finishDuration > doc.duration)
+                    doc.players[i].finishDuration = 0;
             }
             doc.status = 2;
             doc.save();
