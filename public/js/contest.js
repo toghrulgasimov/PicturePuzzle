@@ -58,9 +58,11 @@ if (contestRoom != null) {
         console.log(contest);
         console.log("Contest finished");
 
-        //ToDO
-        //show statistics
-        //action after finishing
+        $('#resultModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            show: true
+        });
     });
 
     function finishInTime() {
@@ -72,9 +74,11 @@ if (contestRoom != null) {
         socket.emit('finishInTime', params, function (contest) {
             console.log(contest);
             console.log("Congratulations");
-            //ToDO
-            //show statistics
-            //action after finishing
+            $('#resultModal').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
         });
     };
 
