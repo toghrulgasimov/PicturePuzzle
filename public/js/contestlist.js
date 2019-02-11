@@ -12,6 +12,7 @@ function getContests() {
                                         <td>${data[i].room}</td>
                                         <td>${moment(data[i].startDate).format("HH:mm:ss")}</td>
                                         <td>${data[i].duration / 1000} saniyə</td>
+                                        <td>${data[i].players.length }</td>
                                     </tr>`);
 
                 $('#contestBody').append(contest);

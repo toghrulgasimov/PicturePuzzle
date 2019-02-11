@@ -62,7 +62,7 @@ if (contestRoom != null) {
             let player = $(`<tr id="${contest.players[i]._id}">
                                 <td>${contest.players[i].rank}</td>
                                 <td>${contest.players[i].firstName + " " + contest.players[i].lastName}</td>
-                                <td>${contest.players[i].finishDuration == 0 ? "Bitirmədi" : contest.players[i].finishDuration + " saniyə"}</td>
+                                <td>${contest.players[i].finishDuration == 0 ? "Bitirmədi" : parseInt(contest.players[i].finishDuration / 1000) + " saniyə"}</td>
                                 <td>${contest.players[i].score}</td>
                             </tr>`);
 
@@ -89,7 +89,7 @@ if (contestRoom != null) {
                 let player = $(`<tr id="${contest.players[i]._id}">
                                 <td>${contest.players[i].rank}</td>
                                 <td>${contest.players[i].firstName + " " + contest.players[i].lastName}</td>
-                                <td>${contest.players[i].finishDuration > contest.duration ? "Bitirməyib" : contest.players[i].finishDuration + " saniyə"} </td>
+                                <td>${contest.players[i].finishDuration > contest.duration ? "Bitirməyib" : parseInt(contest.players[i].finishDuration / 1000) + " saniyə"} </td>
                                 <td>${contest.players[i].score}</td>
                             </tr>`);
 

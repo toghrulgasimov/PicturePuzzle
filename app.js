@@ -58,7 +58,7 @@ io.on("connection", function (socket) {
 
             for (i = 0; i < contest.players.length; i++) {
                 if (contest.players[i]._id == params.player) {
-                    contest.players[i].finishDuration = contest.startDate.getTime() - params.finishDuration;
+                    contest.players[i].finishDuration = params.finishDuration - contest.startDate.getTime();
                 }
             }
             contest.players.sort(function (a, b) {
