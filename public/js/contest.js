@@ -40,7 +40,7 @@ if (contestRoom != null) {
 
     socket.on('startContest', function (contest) {
         //ToDo
-        //hide wait modal show alert as start sign
+        //hide wait modal and show alert as a start sign
         startContest(contest);
         console.log("Contest started")
     });
@@ -51,17 +51,18 @@ if (contestRoom != null) {
 
         //ToDO
         //show statistics
+        //action after finishing
     });
 
     function finishInTime() {
-
         var params = {
             room: contestRoom,
             finishDuration: new Date().getTime(),
             player: getCookie('_id')
         };
-        socket.emit('finishInTime', params, function () {
+        socket.emit('finishInTime', params, function (contest) {
             //ToDO
+            //show statistics
             //action after finishing
         });
     };

@@ -28,14 +28,14 @@ io.on("connection", function (socket) {
         socket.join(params.room);
 
         Contest.findOne({room: params.room}, function (err, doc) {
-            doc.players.push({'_id': params.player, 'rank': -1, 'finishDuration': doc.duration});
+            doc.players.push({'_id': params.player, 'rank': -1, 'finishDuration': doc.duration + 1});
             doc.save();
         });
 
         callback();
     });
 
-    socket.on('finishInTime', async (params) => {
+    socket.on('finishInTime', async (params,callback) => {
         console.log(params + " finished contest");
 
         await Contest.findOne({room: params.room}, function (err, contest) {
@@ -45,7 +45,17 @@ io.on("connection", function (socket) {
                     contest.players[i].finishDuration = contest.startDate.getTime() - params.finishDuration;
                 }
             }
+
+            contest.players.sort(function (a, b) {
+                return a.finishDuration - b.finishDuration;
+            });
+            for (i = 0; i < contest.players.length; i++) {
+                if (contest.players[i].finishDuration <= contest.duration)
+                    contest.players[i].rank = i + 1;
+            }
+
             contest.save();
+            callback(contest);
         });
     });
 
@@ -56,11 +66,11 @@ io.on("connection", function (socket) {
 
 function contestRunner(contest) {
     new CronJob(contest.startDate, function () {
-        io.to(contest.room).emit('startContest', contest);
         console.log('Contest : "' + contest.room + '" started');
         Contest.findOne({room: contest.room}, function (err, doc) {
             doc.status = 1;
             doc.save();
+            io.to(contest.room).emit('startContest', doc);
         });
     }, null, true, 'America/Los_Angeles');
 
@@ -71,7 +81,8 @@ function contestRunner(contest) {
                 return a.finishDuration - b.finishDuration;
             });
             for (i = 0; i < doc.players.length; i++) {
-                doc.players[i].rank = i + 1;
+                if (doc.players[i].finishDuration <= doc.duration)
+                    doc.players[i].rank = i + 1;
             }
             doc.status = 2;
             doc.save();
