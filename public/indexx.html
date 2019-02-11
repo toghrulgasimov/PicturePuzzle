@@ -15,12 +15,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body >
+<body>
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -33,7 +32,7 @@
 </nav>
 <!-- JIGSAW CANVAS -->
 <div id="infoid"></div>
-<div id="canvas-wrap" >
+<div id="canvas-wrap">
     <canvas id="canvas"></canvas>
     <canvas class="hide" id="image"></canvas>
     <canvas class="hide" id="image-preview"></canvas>
@@ -120,6 +119,25 @@
 </form>
 <iframe class="hide" src="about:blank" id="save-score" name="save-score"></iframe>
 <img id="bimg" src="images/back2.jpg">
+
+<!--modal for contest waiting-->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="waitingModal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <h2 id="leftTime" style="text-align: center;">Gözləyin : <span></span></h2>
+        </div>
+    </div>
+</div>
+
+<!--modal for contest result-->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="resultModal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+           
+        </div>
+    </div>
+</div>
+
 <!-- SCRIPTS ROMPECABEZAS -->
 <script src="js/event-emiter.min.js"></script>
 <script src="js/canvas-event.min.js"></script>
@@ -140,7 +158,7 @@
             offsetTop: 0,
             maxWidth: 705,
             maxHeight: 470,
-            defaultImage: "images/puzzle/"+$("#infoid").attr("mission")+".jpg",
+            defaultImage: "images/puzzle/" + $("#infoid").attr("mission") + ".jpg",
             piecesNumberTmpl: "%d Pieces",
             redirect: "",
             border: true,
@@ -150,7 +168,7 @@
             numberOfPieces: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
             squarePieces: false
         });
-        console.log(jigsaw);
+        // console.log(jigsaw);
         if (jigsaw.GET["image"]) {
             jsaw.set_image(jigsaw.GET["image"]);
         }

@@ -22,12 +22,20 @@ if (contestRoom != null) {
                     type: 'post',
                     data: {room: contestRoom},
                     success: function (contest) {
-                        if (contest.status == 1)
+                        if (contest.status == 1) {
                             startContest(contest);
-                        else
+                        }
+                        else {
+                            setInterval(() => {
+                                $('#leftTime span').text(parseInt((new Date(contest.startDate).getTime() - new Date().getTime()) / 1000));
+                            }, 1000);
                             console.log("waiting to start");
-                        //ToDo
-                        //show modal with time until game starts
+                            $('#waitingModal').modal({
+                                backdrop: 'static',
+                                keyboard: false,
+                                show: true
+                            });
+                        }
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
                         console.log(jqXhr, textStatus, errorThrown);
@@ -37,17 +45,18 @@ if (contestRoom != null) {
         });
     });
 
-
     socket.on('startContest', function (contest) {
-        //ToDo
-        //hide wait modal and show alert as a start sign
-        startContest(contest);
-        console.log("Contest started")
+        $('#leftTime').html('Yarış başladı');
+        setTimeout(() => {
+            $('#waitingModal').modal("hide");
+            startContest(contest);
+            console.log("Contest started")
+        }, 1000);
     });
 
     socket.on('finishContest', function (contest) {
         console.log(contest);
-        alert("Contest finished");
+        console.log("Contest finished");
 
         //ToDO
         //show statistics
@@ -61,6 +70,8 @@ if (contestRoom != null) {
             player: getCookie('_id')
         };
         socket.emit('finishInTime', params, function (contest) {
+            console.log(contest);
+            console.log("Congratulations");
             //ToDO
             //show statistics
             //action after finishing
@@ -88,7 +99,6 @@ function startContest(contest) {
         numberOfPieces: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
         squarePieces: false
     });
-    console.log(jigsaw);
     if (jigsaw.GET["image"]) {
         jsaw.set_image(jigsaw.GET["image"]);
     }
