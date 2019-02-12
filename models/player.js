@@ -11,6 +11,18 @@ let PuzzePlayerSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    firstName:{
+        type: String,
+        required: true
+    },
+    lastName:{
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
     _id: {
         type: String,
         required: true

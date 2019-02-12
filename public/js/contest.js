@@ -18,7 +18,7 @@ if (contestRoom != null) {
                 console.log('Connected to server');
 
                 $.ajax({
-                    url: 'http://localhost:3000/contest',
+                    url: 'http://35.231.39.26:3003/contest',
                     type: 'post',
                     data: {room: contestRoom},
                     success: function (contest) {

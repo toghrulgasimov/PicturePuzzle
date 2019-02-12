@@ -32,6 +32,7 @@ io.on("connection", function (socket) {
 
             MongoClient.connect(url, function (err, db) {
                 let dbo = db.db("profile");
+                console.log(params.player);
                 dbo.collection("users").findOne({'_id': new ObjectID(params.player)}, function (error, user) {
                     doc.players.push({
                         '_id': params.player,

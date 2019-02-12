@@ -14,10 +14,14 @@ const cheerio = require('cheerio');
 router.get('/', async function (req, res) {
     console.log("puzzle game");
 
-    if (req.query.id == undefined) return;
-    let user = await PuzzlePlayer.findOne({_id: req.query.id});
+    if (req.query._id == undefined) return;
+    let user = await PuzzlePlayer.findOne({_id: req.query._id});
     if (user == null) {
-        user = new PuzzlePlayer({_id: req.query.id, mission: 1, score: 0});
+        let data = req.query;
+        data.score = 0;
+        data.mission = 1;
+        console.log(data);
+        user = new PuzzlePlayer(data);
         user = await user.save();
     }
     console.log(user);
@@ -75,6 +79,23 @@ router.post('/contest', function (req, res) {
             res.status(520).send(error);
         }
     });
+});
+
+router.get('/border', async function (req, res) {
+    let s = fs.readFileSync("./public/border.html") + "";
+    const $ = cheerio.load(s);
+    let a = $("#table");
+    let ps = await PuzzlePlayer.find({}).sort({mission:-1});
+    for(let i = 0; i < ps.length; i++) {
+        let t = "<tr class='clickable-row' data-href='http://35.231.39.26:3000/users/getUser?id="+ps[i]._id+"'>\n" +
+            "        <th class='align-middle' scope=\"row\">"+(i+1)+"</th>\n" +
+            "        <td class='align-middle'><img src='http://35.231.39.26:3000/profile/"+ps[i].image+"' width='40px' height='40px'>"+("")+"</td>\n" +
+            "        <td class='align-middle'>"+(ps[i].firstName +" " +  ps[i].lastName)+"</td>\n" +
+            "        <td class='align-middle'>"+(ps[i].mission)+"</td>\n" +
+            "    </tr>"
+        a.append(t);
+    }
+    res.send($.html());
 });
 
 module.exports = router;
