@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements AdvancedWebView.L
         MobileAds.initialize(this, "ca-app-pub-2317424106273587~1262699727");
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-2317424106273587/6310051819");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         mAdView = findViewById(R.id.salammm);

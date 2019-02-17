@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
 
     tools:context=".MainActivity">
 
@@ -12,6 +13,7 @@
     <im.delight.android.webview.AdvancedWebView
         android:id="@+id/webview"
         android:layout_width="match_parent"
+        android:layout_weight="1"
         android:layout_height="match_parent">
 
     </im.delight.android.webview.AdvancedWebView>
@@ -24,4 +26,4 @@
         android:layout_alignParentBottom="true"
         ads:adUnitId="ca-app-pub-2317424106273587/6299403987"></com.google.android.gms.ads.AdView>
 
-</RelativeLayout>
+</LinearLayout>
