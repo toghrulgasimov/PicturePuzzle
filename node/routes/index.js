@@ -85,6 +85,16 @@ router.post('/contest', function (req, res) {
         }
     });
 });
+router.post('/reclamprofile', function (req, res) {
+    Contest.findOne({'room': req.body.room}, function (error, contest) {
+        if (!error) {
+            res.status(200).send(contest);
+        } else {
+            console.log(error);
+            res.status(520).send(error);
+        }
+    });
+});
 
 router.get('/border', async function (req, res) {
     let s = fs.readFileSync("./public/border.html") + "";
