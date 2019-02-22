@@ -7,6 +7,12 @@
 var app = require('../app');
 var debug = require('debug')('picturepuzzle:server');
 var http = require('http');
+var https = require('https');
+const fs = require('fs')
+https.createServer({
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+}, app).listen(4003);
 
 /**
  * Get port from environment and store in Express.
