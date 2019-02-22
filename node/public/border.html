@@ -59,15 +59,15 @@
             window.location = $(this).data("href");
         });
         $('#profileb').click(function () {
-            window.location = "https://35.231.39.26:4000/profile";
+            window.location = "http://35.231.39.26:3000/profile";
         });
         $("#logout").click(function () {
             $.ajax({
-                url: 'https://35.231.39.26:4000/users/logout',
+                url: 'http://35.231.39.26:3000/users/logout',
                 type: 'post',
                 data: {},
                 success: function (data, textStatus, request) {
-                    window.location = "https://35.231.39.26:4000/";
+                    window.location = "http://35.231.39.26:3000/";
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
                     console.log(jqXhr);
