@@ -74,6 +74,24 @@
 
         function f() {
 
+            var audioPath = "sound/";
+            var sounds = [
+                {id:"background", src:"background.ogg"}
+            ];
+            var audion = {};
+
+            createjs.Sound.alternateExtensions = ["mp3"];
+            createjs.Sound.addEventListener("fileload", handleLoad);
+            createjs.Sound.registerSounds(sounds, audioPath);
+            function handleLoad(e) {
+                //createjs.Sound.play("background");
+                if(e.id == "background") {
+                    console.log("download ended")
+                    var instance = createjs.Sound.play("background");
+                    //instance.volume = 0.03;
+                }
+            }
+
             ($("#c").attr("width", $(window).width()));
             ($("#c").attr("height", $(window).height()));
 
