@@ -40,7 +40,8 @@ io.on("connection", function (socket) {
                         'lastName': user.lastName,
                         'rank': -1,
                         'score': 0,
-                        'finishDuration': doc.duration + 1
+                        'percent': 0,
+                        'finishDuration': doc.duration + 10000
                     });
                     doc.save();
                     db.close();
@@ -59,6 +60,7 @@ io.on("connection", function (socket) {
 
             for (i = 0; i < contest.players.length; i++) {
                 if (contest.players[i]._id == params.player) {
+                    contest.players[i].percent = 100;
                     contest.players[i].finishDuration = params.finishDuration - contest.startDate.getTime();
                 }
             }
@@ -73,6 +75,21 @@ io.on("connection", function (socket) {
 
             callback(contest);
         });
+    });
+
+    socket.on('getPlayerResult', async function (params) {
+        console.log(params);
+        await Contest.findOne({room: params.room}, async function (err, data) {
+            data.unfinishedCount++;
+            for (i = 0; i < data.players.length; i++) {
+                if (data.players[i]._id == params.player) {
+                    data.players[i].percent = params.percent;
+                    data.players[i].finishDuration = params.finishDuration - data.startDate.getTime();
+                    await data.save();
+                    break;
+                }
+            }
+        })
     });
 
     socket.on('disconnect', () => {
@@ -92,18 +109,41 @@ function contestRunner(contest) {
 
     new CronJob(new Date(contest.startDate.getTime() + contest.duration), function () {
         console.log('Contest : "' + contest.room + '" finished');
-        Contest.findOne({room: contest.room}, function (err, doc) {
-            doc.players.sort(function (a, b) {
-                return a.finishDuration - b.finishDuration;
-            });
-            for (i = 0; i < doc.players.length; i++) {
-                doc.players[i].rank = i + 1;
-                if (doc.players[i].finishDuration > doc.duration)
-                    doc.players[i].finishDuration = 0;
-            }
+        Contest.findOne({room: contest.room}, async function (err, doc) {
             doc.status = 2;
-            doc.save();
+            console.log(io.sockets.adapter.rooms[contest.room]);
+            if (io.sockets.adapter.rooms[contest.room] != undefined && io.sockets.adapter.rooms[contest.room] != null)
+                doc.unfinished = Object.keys(io.sockets.adapter.rooms[contest.room]).length;
+            else
+                doc.unfinished = 0;
+            doc.unfinishedCount = 0;
+            await doc.save();
             io.to(contest.room).emit('finishContest', doc);
+            let isAll = false;
+            let counter = 0
+            while (!isAll) {
+                await Contest.findOne({room: contest.room}, async function (err, data) {
+                    if (data.unfinished == data.unfinishedCount || counter > 1000) {
+                        isAll = true;
+                        data.players.sort(function (a, b) {
+                            return b.percent - a.percent || a.finishDuration - b.finishDuration;
+                        });
+                        for (i = 0; i < data.players.length; i++) {
+                            data.players[i].rank = i + 1;
+                        }
+                        await data.save();
+
+
+                        // bax burda playerler siralanmis vezyetdedi ranklari verilib
+                        //burda data.players siralanmis nomreslenmis listdi  1 ci yerden axirinc yere
+                        // ve her player  elementinin icinde score var
+                        //
+                        io.to(contest.room).emit('contestResults', data);
+                    } else {
+                        counter++;
+                    }
+                })
+            }
         });
     }, null, true, 'America/Los_Angeles');
 }
@@ -118,6 +158,7 @@ setImmediate((arg) => {
             room: new Date().getTime(),
             duration: 1000 * 120,
             picture: "images/contest/" + (imageIndex++) + ".jpg",
+            pieces: 12,
             startDate: new Date(new Date().getTime() + 1000 * 20),
             createDate: new Date().getTime(),
             status: 0,

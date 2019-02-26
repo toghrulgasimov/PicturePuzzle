@@ -3,12 +3,20 @@ const validator = require('validator');
 
 
 let ContestSchema = new mongoose.Schema({
+    room: {
+        type: String,
+        required: true
+    },
     duration: {
         type: Number,
         required: true
     },
     picture: {
         type: String,
+        required: true
+    },
+    pieces: {
+        type: Number,
         required: true
     },
     startDate: {
@@ -20,6 +28,12 @@ let ContestSchema = new mongoose.Schema({
     },
     status: {
         type: Number // 0 pending ,1 ongoing, 2 finished , -1 interrupted
+    },
+    unfinished: {
+        type: Number
+    },
+    unfinishedCount: {
+        type: Number
     },
     players: [{
         _id: {
@@ -35,6 +49,9 @@ let ContestSchema = new mongoose.Schema({
             type: Number
         },
         score: {
+            type: Number
+        },
+        percent: {
             type: Number
         },
         finishDuration: {

@@ -25,7 +25,7 @@
     <div class="container-fluid">
         <div class="navbar-header">
 
-            <a class="navbar-brand" href="http://35.231.39.26:3000/">Əsas səhifə</a>
+            <a class="navbar-brand" href="http://localhost:3000/">Əsas səhifə</a>
         </div>
 
     </div>
@@ -124,16 +124,19 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="waitingModal">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <h2 id="leftTime" style="text-align: center;">Gözləyin : <span></span></h2>
+            <h3 id="leftTime" style="text-align: center;">Gözləyin : <span></span></h3>
         </div>
     </div>
 </div>
 
 <!--modal for contest result-->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="resultModal">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <h2 style="text-align: center;">Yarış bitdi</h2>
+    <div class="modal-dialog modal-sm" role="document" style="height: 100%;">
+        <div class="modal-content" style="height: 100%;">
+            <h3 class="waitResults" style="text-align: center;">Yarış bitdikdə xallar hesablanacaq</h3>
+            <h3 class="waitResults" id="leftTime2" style="text-align: center;">Gözləyin : <span></span></h3>
+            <h3 class="results" style="text-align: center;display: none;">Yarış bitdi</h3>
+            <h3 class="calcScores" style="text-align: center;display: none;">Nəticələr hesablanır</h3>
             <table class="table table-hover">
                 <thead>
                 <tr>
@@ -147,6 +150,7 @@
 
                 </tbody>
             </table>
+            <img class="calcScores" src="images/loading.gif" style="width: 30%;margin-left: 35%;margin-top: 50px;"/>
         </div>
     </div>
 </div>
