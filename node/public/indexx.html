@@ -161,6 +161,15 @@
 <script src="js/canvas-puzzle.min.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="js/canvas-puzzle.ie.min.js"></script><![endif]-->
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/createjs.min.js"></script>
+<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+<script src="js/preloadjs.min.js"></script>
+<script src="js/soundjs.min.js"></script>
+<script src="js/tweenjs.min.js"></script>
+
+
 <script>
 
     var bimg = new Image;
@@ -194,5 +203,26 @@
 </script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/contest.js"></script>
+<script>
+    window.onload = function () {
+        var audioPath = "sound/";
+        var sounds = [
+            {id:"background", src:"background.ogg"}
+        ];
+        var audion = {};
+
+        createjs.Sound.alternateExtensions = ["mp3"];
+        createjs.Sound.addEventListener("fileload", handleLoad);
+        createjs.Sound.registerSounds(sounds, audioPath);
+        function handleLoad(e) {
+            //createjs.Sound.play("background");
+            if(e.id == "background") {
+                console.log("download ended")
+                var instance = createjs.Sound.play("background");
+                instance.volume = 0.5;
+            }
+        }
+    }
+</script>
 </body>
 </html>

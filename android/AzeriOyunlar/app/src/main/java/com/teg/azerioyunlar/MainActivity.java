@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements AdvancedWebView.L
             }
         });
 
-        String s = "http://35.231.39.26:3000/?puzzle=1";
+        String s = "http://35.231.39.26:3003/";
         //String s = "https://www.google.com/";
         mWebView.loadUrl(s);
 
