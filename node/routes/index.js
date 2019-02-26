@@ -18,7 +18,7 @@ router.get('/', async function (req, res) {
     if (req.query._id == undefined) {
         // avto qeydiyyatdan kecmelidi
 
-        var resr = request('GET', 'http://35.231.39.26:3000/users/getuserinfo');
+        var ress = request('GET', 'http://35.231.39.26:3000/users/getuserinfo');
         req.query = JSON.parse(ress.getBody());
     }
     let user = await PuzzlePlayer.findOne({_id: req.query._id});
