@@ -1,3 +1,7 @@
+document.onload = function () {
+
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const contestRoom = urlParams.get('contest');
 if (contestRoom != null) {

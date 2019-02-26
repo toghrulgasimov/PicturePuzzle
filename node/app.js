@@ -11,6 +11,9 @@ const {Contest} = require('./models/contest');
 var indexRouter = require('./routes/index');
 let MongoClient = require('mongodb').MongoClient;
 let url = "mongodb://localhost:27017/";
+const Elo = require('./routes/elo')
+const {Player} = require('./models/player');
+
 
 var app = express();
 
@@ -32,6 +35,7 @@ io.on("connection", function (socket) {
 
             MongoClient.connect(url, function (err, db) {
                 let dbo = db.db("profile");
+                console.log("-------------------------------------")
                 console.log(params.player);
                 dbo.collection("users").findOne({'_id': new ObjectID(params.player)}, function (error, user) {
                     doc.players.push({
@@ -129,7 +133,11 @@ function contestRunner(contest) {
                             return b.percent - a.percent || a.finishDuration - b.finishDuration;
                         });
                         for (i = 0; i < data.players.length; i++) {
+
+                            let p = await Player.findOne({_id:data.players[i]._id})
+                            
                             data.players[i].rank = i + 1;
+                            data.players[i].elo = p.score;
                         }
                         await data.save();
 
@@ -138,7 +146,18 @@ function contestRunner(contest) {
                         //burda data.players siralanmis nomreslenmis listdi  1 ci yerden axirinc yere
                         // ve her player  elementinin icinde score var
                         //
+                        //
+                        let Calculator = new Elo.ELOMatch();
+                        for(let i = 0; i < data.length; i++) {
+                            Calculator.addPlayer(data.players[i]._id, data.players[i].rank, data.players[i].elo);
+                        }
+                        let ans = Calculator.calculateELOs();
+                        // ans array di arrayda gondermek olur
+                        data.ans = ans;
                         io.to(contest.room).emit('contestResults', data);
+                        for(let i = 0; i < data.length; i++) {
+                            Player.findOneAndUpdate({_id:data.players[i]._id}, {$set:{score : data.ans[i].eloPost}});
+                        }
                     } else {
                         counter++;
                     }

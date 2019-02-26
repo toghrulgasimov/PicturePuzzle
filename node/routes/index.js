@@ -28,7 +28,7 @@ router.get('/', async function (req, res) {
     let user = await PuzzlePlayer.findOne({_id: req.query._id});
     if (user == null) {
         let data = req.query;
-        data.score = 0;
+        data.score = 500;
         data.mission = 1;
         console.log(data);
         user = new PuzzlePlayer(data);
@@ -37,6 +37,7 @@ router.get('/', async function (req, res) {
     console.log(user);
     res.cookie('_id', user._id);
     res.cookie('mission', user.mission);
+    res.cookie('score', user.score);
     let s = fs.readFileSync("./public/menu2.html") + "";
     const $ = cheerio.load(s);
     $('#info').attr("r", 'Reytinq ' + user.mission);
