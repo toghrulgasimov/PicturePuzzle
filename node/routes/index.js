@@ -29,7 +29,7 @@ router.get('/', async function (req, res) {
     res.cookie('mission', user.mission);
     let s = fs.readFileSync("./public/menu2.html") + "";
     const $ = cheerio.load(s);
-    $('#rinfo').text('Reytinq ' + user.mission);
+    $('#info').attr("r", 'Reytinq ' + user.mission);
     res.send($.html());//test
 });
 

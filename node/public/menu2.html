@@ -115,7 +115,7 @@
             yaris.y = reyting.y + 70;
             menuCont.addChild(oyna);
             menuCont.addChild(reyting);
-            menuCont.addChild(yaris);
+            //menuCont.addChild(yaris);
 
             stage.addChild(menuCont);
 
@@ -135,6 +135,12 @@
             yaris.on("click", (e)=>{
                 window.location.href = "/contests";
             })
+
+            var text = new createjs.Text($("#info").attr("r"), "40px Arial", "#f5f8ff");
+            text.x = menuCont.x + 60;
+            text.y = menuCont.y - 50;
+            text.textBaseline = "alphabetic";
+            stage.addChild(text)
             stage.update();
         }
 
