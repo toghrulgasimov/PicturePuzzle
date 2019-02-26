@@ -27,7 +27,7 @@ router.get('/', async function (req, res) {
     console.log(user);
     res.cookie('_id', user._id);
     res.cookie('mission', user.mission);
-    let s = fs.readFileSync("./public/menu.html") + "";
+    let s = fs.readFileSync("./public/menu2.html") + "";
     const $ = cheerio.load(s);
     $('#rinfo').text('Reytinq ' + user.mission);
     res.send($.html());//test
