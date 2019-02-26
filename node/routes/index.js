@@ -10,11 +10,17 @@ const {mongoose} = require('../dao/mongoose');
 const {Contest} = require('../models/contest');
 const {PuzzlePlayer} = require('../models/player');
 const cheerio = require('cheerio');
+var request = require('sync-request');
 
 router.get('/', async function (req, res) {
     console.log("puzzle game");
 
-    if (req.query._id == undefined) return;
+    if (req.query._id == undefined) {
+        // avto qeydiyyatdan kecmelidi
+
+        var res = request('GET', 'http://35.231.39.26:3000/users/getuserinfo');
+        req.query = JSON.parse(res.getBody());
+    }
     let user = await PuzzlePlayer.findOne({_id: req.query._id});
     if (user == null) {
         let data = req.query;
