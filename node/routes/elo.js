@@ -67,6 +67,7 @@ class ELOMatch {
             this.players[i].eloPost = this.players[i].eloPre + this.players[i].eloChange;
             this.players[i].eloPost = Math.round(this.players[i].eloPost);
         }
+        return this.players;
     }
 }
 

@@ -12,7 +12,7 @@ var indexRouter = require('./routes/index');
 let MongoClient = require('mongodb').MongoClient;
 let url = "mongodb://localhost:27017/";
 const Elo = require('./routes/elo')
-const {Player} = require('./models/player');
+const {PuzzlePlayer} = require('./models/player');
 
 
 var app = express();
@@ -20,6 +20,8 @@ var app = express();
 var io = socket_io();
 app.io = io;
 
+
+console.log(PuzzlePlayer);
 io.on("connection", function (socket) {
     console.log('New user connected');
 
@@ -82,7 +84,7 @@ io.on("connection", function (socket) {
     });
 
     socket.on('getPlayerResult', async function (params) {
-        console.log(params);
+        //console.log(params);
         await Contest.findOne({room: params.room}, async function (err, data) {
             data.unfinishedCount++;
             for (i = 0; i < data.players.length; i++) {
@@ -115,7 +117,7 @@ function contestRunner(contest) {
         console.log('Contest : "' + contest.room + '" finished');
         Contest.findOne({room: contest.room}, async function (err, doc) {
             doc.status = 2;
-            console.log(io.sockets.adapter.rooms[contest.room]);
+            //console.log(io.sockets.adapter.rooms[contest.room]);
             if (io.sockets.adapter.rooms[contest.room] != undefined && io.sockets.adapter.rooms[contest.room] != null)
                 doc.unfinished = Object.keys(io.sockets.adapter.rooms[contest.room]).length;
             else
@@ -132,14 +134,14 @@ function contestRunner(contest) {
                         data.players.sort(function (a, b) {
                             return b.percent - a.percent || a.finishDuration - b.finishDuration;
                         });
-                        for (i = 0; i < data.players.length; i++) {
+                        for (let i = 0; i < data.players.length; i++) {
 
-                            let p = await Player.findOne({_id:data.players[i]._id})
-                            
+                            let p = await PuzzlePlayer.findOne({_id:data.players[i]._id})
+
                             data.players[i].rank = i + 1;
                             data.players[i].elo = p.score;
                         }
-                        await data.save();
+
 
 
                         // bax burda playerler siralanmis vezyetdedi ranklari verilib
@@ -148,16 +150,20 @@ function contestRunner(contest) {
                         //
                         //
                         let Calculator = new Elo.ELOMatch();
-                        for(let i = 0; i < data.length; i++) {
+                        for(let i = 0; i < data.players.length; i++) {
                             Calculator.addPlayer(data.players[i]._id, data.players[i].rank, data.players[i].elo);
                         }
                         let ans = Calculator.calculateELOs();
                         // ans array di arrayda gondermek olur
                         data.ans = ans;
                         io.to(contest.room).emit('contestResults', data);
-                        for(let i = 0; i < data.length; i++) {
-                            Player.findOneAndUpdate({_id:data.players[i]._id}, {$set:{score : data.ans[i].eloPost}});
+                        console.log(ans);
+                        for(let i = 0; i < ans.length; i++) {
+                            let uu = await PuzzlePlayer.findOneAndUpdate({_id:ans[i].name}, {$set:{score : ans[i].eloPost}});
+                            console.log("xalllllllllllllllllll" + data.ans[i].eloPost);
+                            console.log(uu);
                         }
+                        await data.save();
                     } else {
                         counter++;
                     }
@@ -169,7 +175,7 @@ function contestRunner(contest) {
 
 //contest maker
 setImmediate((arg) => {
-    console.log(arg);
+    //console.log(arg);
     let imageIndex = 1;
     setInterval(() => {
 
@@ -185,7 +191,7 @@ setImmediate((arg) => {
         });
 
         newContest.save().then((contest) => {
-            console.log("New contest was created", contest);
+            //console.log("New contest was created", contest);
             contestRunner(contest);
         }).catch((error) => {
             console.log(error);

@@ -83,12 +83,14 @@ if (contestRoom != null) {
     socket.on('contestResults', function (contest) {
         $('.calcScores').hide();
         $('#resultBody').html('');
+        console.log(contest)
         for (i = 0; i < contest.players.length; i++) {
             let player = $(`<tr id="${contest.players[i]._id}">
                                 <td>${contest.players[i].rank}</td>
                                 <td>${contest.players[i].firstName + " " + contest.players[i].lastName}</td>
                                 <td>${contest.players[i].percent < 100 ? "Bitirmədi" : parseInt(contest.players[i].finishDuration / 1000) + " saniyə"}</td>
                                 <td>${contest.players[i].score}</td>
+                                <!--<td>${contest.ans[i].eloChange + " " + contest.ans[i].eloChange}</td>-->
                             </tr>`);
 
             $('#resultBody').append(player);
