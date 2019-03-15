@@ -15,7 +15,7 @@ var request = require('sync-request');
 router.get('/', async function (req, res) {
     console.log("puzzle game");
 
-    if (req.query._id == undefined) {
+    if (req.query._id == undefined && req.cookies._id == undefined) {
         // avto qeydiyyatdan kecmelidi
 //http://35.231.39.26/getonline
         var ress = request('GET', 'http://35.231.39.26:3000/users/getuserinfo');
@@ -24,6 +24,8 @@ router.get('/', async function (req, res) {
         const $ = cheerio.load(s);
         //$('#info').attr("r", 'Reytinq ' + user.mission);
         //res.send($.html());//test
+    }else {
+        req.query = req.cookies;
     }
     let user = await PuzzlePlayer.findOne({_id: req.query._id});
     if (user == null) {
