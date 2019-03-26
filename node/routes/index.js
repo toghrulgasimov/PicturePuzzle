@@ -17,8 +17,8 @@ router.get('/', async function (req, res) {
 
     if (req.query._id == undefined && req.cookies._id == undefined) {
         // avto qeydiyyatdan kecmelidi
-//http://35.231.39.26/getonline
-        var ress = request('GET', 'http://35.231.39.26:3000/users/getuserinfo');
+//http://localhost/getonline
+        var ress = request('GET', 'http://localhost:3000/users/getuserinfo');
         req.query = JSON.parse(ress.getBody());
         let s = fs.readFileSync("./public/menu2.html") + "";
         const $ = cheerio.load(s);
@@ -42,7 +42,7 @@ router.get('/', async function (req, res) {
     res.cookie('score', user.score);
     let s = fs.readFileSync("./public/menu2.html") + "";
     const $ = cheerio.load(s);
-    $('#info').attr("r", 'Reytinq ' + user.mission);
+    $('#info').attr("r", 'Mərhələ ' + user.mission);
     res.send($.html());//test
 });
 
@@ -115,9 +115,9 @@ router.get('/border', async function (req, res) {
     let a = $("#table");
     let ps = await PuzzlePlayer.find({}).sort({mission:-1});
     for(let i = 0; i < ps.length; i++) {
-        let t = "<tr class='clickable-row' data-href='http://35.231.39.26:3000/users/getUser?id="+ps[i]._id+"'>\n" +
+        let t = "<tr class='clickable-row' data-href='http://localhost:3000/users/getUser?id="+ps[i]._id+"'>\n" +
             "        <th class='align-middle' scope=\"row\">"+(i+1)+"</th>\n" +
-            "        <td class='align-middle'><img src='http://35.231.39.26:3000/profile/"+ps[i].image+"' width='40px' height='40px'>"+("")+"</td>\n" +
+            "        <td class='align-middle'><img src='http://localhost:3000/profile/"+ps[i].image+"' width='40px' height='40px'>"+("")+"</td>\n" +
             "        <td class='align-middle'>"+(ps[i].firstName +" " +  ps[i].lastName)+"</td>\n" +
             "        <td class='align-middle'>"+(ps[i].mission)+"</td>\n" +
             "    </tr>"

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <title>Jigsaw Puzzle</title>
+    <title>Tapmaca</title>
     <!--[if lt IE 9]>
     <script type="text/javascript" src="js/bin/flashcanvas.js"></script><![endif]-->
     <link rel="stylesheet" href="css/modal.css" type="text/css" charset="utf-8"/>
@@ -25,7 +25,7 @@
     <div class="container-fluid">
         <div class="navbar-header">
 
-            <a class="navbar-brand" href="http://35.231.39.26:3000/">Əsas səhifə</a>
+            <a class="navbar-brand" href="http://localhost:3003/">Əsas səhifə</a>
         </div>
 
     </div>
@@ -125,6 +125,9 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <h3 id="leftTime" style="text-align: center;">Gözləyin : <span></span></h3>
+            <p style="text-align: center;font-size: 20px;color: red;">
+                <a href="http://localhost:3003/contests" style="color: red;">Yarışı tərk et</a>
+            </p>
         </div>
     </div>
 </div>
@@ -133,6 +136,9 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="resultModal">
     <div class="modal-dialog modal-sm" role="document" style="height: 100%;">
         <div class="modal-content" style="height: 100%;">
+            <p style="text-align: center;font-size: 20px;color: red;margin-top: 10px;">
+                <a href="http://localhost:3003/contests" style="color: red;">Yarışlara qayıt</a>
+            </p>
             <h3 class="waitResults" style="text-align: center;">Yarış bitdikdə xallar hesablanacaq</h3>
             <h3 class="waitResults" id="leftTime2" style="text-align: center;">Gözləyin : <span></span></h3>
             <h3 class="results" style="text-align: center;display: none;">Yarış bitdi</h3>
@@ -207,16 +213,17 @@
     window.onload = function () {
         var audioPath = "sound/";
         var sounds = [
-            {id:"background", src:"background.ogg"}
+            {id: "background", src: "background.ogg"}
         ];
         var audion = {};
 
         createjs.Sound.alternateExtensions = ["mp3"];
         createjs.Sound.addEventListener("fileload", handleLoad);
         createjs.Sound.registerSounds(sounds, audioPath);
+
         function handleLoad(e) {
             //createjs.Sound.play("background");
-            if(e.id == "background") {
+            if (e.id == "background") {
                 console.log("download ended")
                 var instance = createjs.Sound.play("background");
                 instance.volume = 0.5;

@@ -22,14 +22,14 @@ if (contestRoom != null) {
                 console.log('Connected to server');
 
                 $.ajax({
-                    url: 'http://35.231.39.26:3003/contest',
+                    url: 'http://localhost:3003/contest',
                     type: 'post',
                     data: {room: contestRoom},
                     success: function (contest) {
                         if (contest.status == 1) {
                             startContest(contest);
                         }
-                        else {
+                        else if (contest.status == 0) {
                             setInterval(() => {
                                 $('#leftTime span').text(parseInt((new Date(contest.startDate).getTime() - new Date().getTime()) / 1000));
                             }, 1000);
@@ -39,6 +39,8 @@ if (contestRoom != null) {
                                 keyboard: false,
                                 show: true
                             });
+                        } else {
+                            window.location = "http://localhost:3003/contests";
                         }
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
