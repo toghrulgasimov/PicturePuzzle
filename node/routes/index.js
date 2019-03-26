@@ -113,13 +113,13 @@ router.get('/border', async function (req, res) {
     let s = fs.readFileSync("./public/border.html") + "";
     const $ = cheerio.load(s);
     let a = $("#table");
-    let ps = await PuzzlePlayer.find({}).sort({mission:-1});
+    let ps = await PuzzlePlayer.find({}).sort({score:-1});
     for(let i = 0; i < ps.length; i++) {
         let t = "<tr class='clickable-row' data-href='http://localhost:3000/users/getUser?id="+ps[i]._id+"'>\n" +
             "        <th class='align-middle' scope=\"row\">"+(i+1)+"</th>\n" +
             "        <td class='align-middle'><img src='http://localhost:3000/profile/"+ps[i].image+"' width='40px' height='40px'>"+("")+"</td>\n" +
             "        <td class='align-middle'>"+(ps[i].firstName +" " +  ps[i].lastName)+"</td>\n" +
-            "        <td class='align-middle'>"+(ps[i].mission)+"</td>\n" +
+            "        <td class='align-middle'>"+(ps[i].score)+"</td>\n" +
             "    </tr>"
         a.append(t);
     }

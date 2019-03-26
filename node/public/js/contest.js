@@ -87,16 +87,19 @@ if (contestRoom != null) {
         $('#resultBody').html('');
         console.log(contest)
         for (i = 0; i < contest.players.length; i++) {
+            let s =  contest.ans[i].eloPre + " " + (contest.ans[i].eloChange  < 0 ? "-" : "+") + contest.ans[i].eloChange;
             let player = $(`<tr id="${contest.players[i]._id}">
                                 <td>${contest.players[i].rank}</td>
                                 <td>${contest.players[i].firstName + " " + contest.players[i].lastName}</td>
                                 <td>${contest.players[i].percent < 100 ? "Bitirmədi" : parseInt(contest.players[i].finishDuration / 1000) + " saniyə"}</td>
-                                <td>${contest.players[i].score}</td>
-                                <!--<td>${contest.ans[i].eloChange + " " + contest.ans[i].eloChange}</td>-->
+                                
+                                <td>${contest.ans[i].eloChange + " " + contest.ans[i].eloChange}</td>
                             </tr>`);
+
 
             $('#resultBody').append(player);
         }
+    //<td>${contest.players[i].score}</td>
     });
 
     function finishInTime(detail) {

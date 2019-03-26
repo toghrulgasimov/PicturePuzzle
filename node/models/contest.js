@@ -57,7 +57,8 @@ let ContestSchema = new mongoose.Schema({
         finishDuration: {
             type: Number
         }
-    }]
+    }],
+    ans : []
 });
 
 let Contest = mongoose.model('Contest', ContestSchema);
