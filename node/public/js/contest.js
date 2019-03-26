@@ -22,7 +22,7 @@ if (contestRoom != null) {
                 console.log('Connected to server');
 
                 $.ajax({
-                    url: 'http://localhost:3003/contest',
+                    url: 'http://35.231.39.26:3003/contest',
                     type: 'post',
                     data: {room: contestRoom},
                     success: function (contest) {
@@ -40,7 +40,7 @@ if (contestRoom != null) {
                                 show: true
                             });
                         } else {
-                            window.location = "http://localhost:3003/contests";
+                            window.location = "http://35.231.39.26:3003/contests";
                         }
                     },
                     error: function (jqXhr, textStatus, errorThrown) {
