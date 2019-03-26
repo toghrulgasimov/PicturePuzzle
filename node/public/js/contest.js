@@ -93,7 +93,7 @@ if (contestRoom != null) {
                                 <td>${contest.players[i].firstName + " " + contest.players[i].lastName}</td>
                                 <td>${contest.players[i].percent < 100 ? "Bitirmədi" : parseInt(contest.players[i].finishDuration / 1000) + " saniyə"}</td>
                                 
-                                <td>${contest.ans[i].eloChange + " " + contest.ans[i].eloChange}</td>
+                                <td>${s}</td>
                             </tr>`);
 
 
